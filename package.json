@@ -1,0 +1,45 @@
+{
+  "name": "dsh-subagent-reasonix",
+  "description": "One-shot Reasonix subagent over the Agent Client Protocol, using Reasonix's native authentication and settings",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "icon": "./icon.svg",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SivanCola/dsh-subagent-reasonix.git"
+  },
+  "homepage": "https://github.com/SivanCola/dsh-subagent-reasonix#readme",
+  "bugs": {
+    "url": "https://github.com/SivanCola/dsh-subagent-reasonix/issues"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "dsh-bundle",
+    "reasonix",
+    "subagent",
+    "acp"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh-subagent-acp": "0.2.1-rc.2"
+  }
+}

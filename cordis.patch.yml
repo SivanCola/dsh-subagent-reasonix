@@ -1,0 +1,20 @@
+# Reasonix subagent: each delegation spawns a fresh `reasonix acp` in the
+# delegating Session's workspace and returns only its final answer.
+# Reasonix reads its own config and keys (~/.reasonix), so the credential
+# scrubbing of the ACP provider does not affect it.
+- insert:
+    - id: subagent-reasonix
+      name: '@deepseek-ai/dsh-subagent-acp'
+      config:
+        providerName: reasonix
+        command: reasonix
+        args: [acp]
+        # Unattended child: approve Reasonix's permission prompts. Its native
+        # sandbox and write-root settings still apply.
+        permission: allow
+    - id: tool-subagent-reasonix
+      name: '@deepseek-ai/dsh-tool-subagent'
+      config:
+        provider: reasonix
+        toolName: subagent_reasonix
+        maxDepth: provider-managed
