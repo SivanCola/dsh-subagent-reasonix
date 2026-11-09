@@ -1,7 +1,7 @@
 {
   "name": "dsh-subagent-reasonix",
   "description": "One-shot Reasonix subagent over the Agent Client Protocol, using Reasonix's native authentication and settings",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "type": "module",
   "exports": {
@@ -41,5 +41,16 @@
   },
   "dependencies": {
     "@deepseek-ai/dsh-subagent-acp": "0.2.1-rc.2"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-tool-subagent": "0.2.1-rc.2"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/dsh-tool-subagent": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "dsh": "0.2.1-rc.2"
   }
 }
