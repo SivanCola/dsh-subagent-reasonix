@@ -6,7 +6,7 @@
 
 ## 前置条件
 
-- DeepSeek Harness **0.2.1-rc.2**（见[兼容性](#兼容性)）
+- DeepSeek Harness **0.2.2-rc.1** 或同一发行线上的更新版本（见[兼容性](#兼容性)）
 - 已安装 Reasonix，并且 DSH 宿主能在 PATH 中找到 `reasonix`（Desktop 会读取登录 shell 的 PATH）
 - Reasonix 已配置好模型与密钥（`reasonix setup`）。可用 `reasonix doctor` 检查。
 
