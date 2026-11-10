@@ -70,21 +70,19 @@ Reasonix 读取自己的 `~/.reasonix` 配置与密钥，所以模型、provider
 
 ## 兼容性
 
-本插件的可用范围由 `@deepseek-ai/dsh-subagent-acp` 决定，`package.json` 里有三处相关声明，各自作用不同：
+`package.json` 里三处相关声明，各自作用不同：
 
 | 字段 | 值 | 作用 |
 | --- | --- | --- |
-| `engines.dsh` | `0.2.1-rc.2` | DSH 启动和安装时据此拒绝不匹配的宿主。存在此字段时，下面的 `peerDependencies` 不再参与判定。 |
-| `dependencies` | `@deepseek-ai/dsh-subagent-acp` = `0.2.1-rc.2` | acp 提供方**不由 DSH 自带**，必须由插件引入。 |
-| `peerDependencies` | `@deepseek-ai/dsh-tool-subagent` = `0.2.1-rc.2` | 该包由 DSH 自带，声明为 peer 以免装出第二份；`optional` 是因为宿主已提供，缺了也不阻止安装。 |
+| `engines.dsh` | `>=0.2.2-rc.1 <0.3.0-0` | DSH 安装与启动时据此判断宿主是否受支持。存在此字段时，下面两条 `peerDependencies` 不再参与该判定。 |
+| `dependencies` | `@deepseek-ai/dsh-subagent-acp` = `0.2.2-rc.1` | acp 提供方**不由 DSH 自带**，必须由插件引入。 |
+| `peerDependencies` | `@deepseek-ai/dsh-tool-subagent` = `>=0.2.2-rc.1 <0.3.0-0` | 该包由 DSH 自带，声明为 peer 以免装出第二份；`optional` 是因为宿主已提供，缺了也不阻止安装。 |
 
-**为什么 acp 不能写成 peer。** DSH 本体、`dsh-base`、`dsh-web-app` 都不包含 `@deepseek-ai/dsh-subagent-acp`，只有 `dsh-tool-subagent` 是宿主自带的。把 acp 改成 peer 会让安装后的 profile 里无人提供该模块，启动时报 `Cannot find package '@deepseek-ai/dsh-subagent-acp'`。
+**为什么 acp 不能写成 peer。** DSH 本体、`dsh-base`、`dsh-web-app` 都不包含 `@deepseek-ai/dsh-subagent-acp`（宿主自带的 `dsh-acp` 是服务端，与此客户端不是一回事），只有 `dsh-tool-subagent` 是宿主提供的。把 acp 改成 peer 会让安装后的 profile 里无人提供该模块。
 
-**为什么版本必须跟着宿主走。** acp 把自己的 peer 精确钉死到同一发行版（即 `@deepseek-ai/dsh-session` = `0.2.1-rc.2`，不是范围）。宿主升级到 `0.2.1-rc.3` 后，`acp@0.2.1-rc.2` 就会被 DSH 拒绝挂载。所以：
+**为什么版本跟宿主走。** acp 把自己的 peer 精确钉死到同一发行版（如 `@deepseek-ai/dsh-session` = `0.2.2-rc.1`，不是范围），所以 `engines.dsh` 的下界就是当前 acp 支持的那条发行线。宿主在 `0.2.2-rc.1` 线上时可以直接用；宿主换到新发行线后，需要装对应新版本的插件。
 
-- 用**精确版本**而不是范围：写成 `>=0.2.1-rc.2 <0.2.2-0` 时，pnpm 会解析到区间内最高的 `0.2.1-rc.5`，那个版本反而不被当前宿主接受，安装会被拒。
-- DSH 升级后需要装对应新版本的插件，这是 acp 的发行节奏决定的，不是本插件额外加的限制。
-- 升级后若版本不匹配，DSH 会在启动时明确报出该插件不兼容并跳过，而不是让 `subagent_reasonix` 悄无声息地消失。
+版本不匹配时 DSH 会明确报错并跳过（`skipping profile bundle "dsh-subagent-reasonix": ... incompatible with dsh ...`），不会让 `subagent_reasonix` 悄无声息地消失。
 
 ## 已知问题
 
